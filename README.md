@@ -1,7 +1,7 @@
-[![Build Status](https://api.travis-ci.org/bednar/persistence.png?branch=master)](https://travis-ci.org/bednar/persistence) Persistence Library
+Persistence Library [![Build Status](https://api.travis-ci.org/bednar/persistence.png?branch=master)](https://travis-ci.org/bednar/persistence)
 ====
 
-# Maven Repository
+### Maven Repository
 
     <repository>
         <id>public</id>
@@ -9,7 +9,7 @@
         <url>http://nexus-bednar.rhcloud.com/nexus/content/groups/public/</url>
     </repository>
 
-# License
+### License
 
     Copyright (c) 2013, Jakub Bednář
     All rights reserved.
