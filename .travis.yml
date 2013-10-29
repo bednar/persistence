@@ -7,5 +7,5 @@ script: mvn clean install deploy --settings src/main/config/travis-maven-setting
 
 env:
   global:
-  - secure: H1j/RStGsb2gtnKvXo1CLPX4EvQeBuwT5GwHVjMSiZiAt5BifulSvyLBX0OPVg/Jb6f4/KSF44KTvzsj2jCkk6ma32SAU7icrd/Zr1EkfZUydfKTog3e03NVNg/wD+8QcVR209nwo1BzCRhqut+dERPCfSdPYk/WgnGZ5xk/WJo=
-  - secure: d1ZjkpmbiHYJN2uyCHIkfvthFeGdY24TZvkf/UFm1ZoH5vctuuQZHtfPDYlRUcsoxLgyF0jpeOWX248SLDSSLA/f9FdndDrHZkgHhQh1bf7Cmdo1C/zUSY1rBlifj4SEHxPrOh6JbKLSECdtzQt6JrDiVbUFhfXDN3xL4qin72U=
+  - secure: gmpxRh1l6+0oZXdgLJSxwINbUgb94YH2S8ODhu103LXpvNJvjFe5taiWKvWLeCWiuOzgy/a1YcBpPv2dBMESC1iOLNxkGshSIP/tZzi7kxKpkdCKbo6bdWKSWzJCuiTIGQCqSF+QwGwS8NVwLIgacvSQSNcCZTYBTNYIkSDCZaQ=
+  - secure: MjjkHmm1DlvwZJoPq28Pt1hTr4tMSQDLeejMzancp68iJM/cnNNQmyAuk8J6pGgvduRrLSHM1b9zird8Lv7EdblwsXl/LCnQgHRZNGvLMsT2BSotXua+KcwzWNzZdPvByqEWR9uvwobEHjAP4u8ZXu5TiFxnyiDmih3+zq18MmI=
