@@ -16,6 +16,8 @@
         <version>1-SNAPSHOT</version>
     </parent>
 
+    <name>Persistence Library</name>
+
     <dependencies>
 
         <!-- Bednar -->
