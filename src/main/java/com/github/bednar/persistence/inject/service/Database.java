@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 import java.util.List;
 
 import com.github.bednar.persistence.contract.Resource;
+import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 
 /**
@@ -66,6 +67,12 @@ public interface Database
          */
         @Nonnull
         <R extends Resource> List<R> list(@Nonnull Criterion criterion, @Nonnull Class<R> type);
+
+        /**
+         * @return actual session
+         */
+        @Nonnull
+        Session session();
 
         /**
          * Execute {@code sql} statement.

@@ -127,6 +127,13 @@ public class DatabaseImpl implements Database
 
         @Nonnull
         @Override
+        public Session session()
+        {
+            return session;
+        }
+
+        @Nonnull
+        @Override
         public Transaction doSQL(@Nonnull final String sql)
         {
             session.doWork(new Work()

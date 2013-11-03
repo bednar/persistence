@@ -39,4 +39,16 @@ public class DatabaseTest extends AbstractPersistenceTest
                 .doSQL("select * from Pub")
                 .finish();
     }
+
+    @Test
+    public void sessionNotNull()
+    {
+        Database.Transaction transaction = injector
+                .getInstance(Database.class)
+                .transaction();
+
+        Assert.assertNotNull(transaction.session());
+
+        transaction.finish();
+    }
 }
