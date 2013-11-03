@@ -5,6 +5,7 @@ import javax.annotation.Nonnull;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
 /**
  * Basic enity for store in Database Storage.
@@ -24,8 +25,18 @@ public class Resource
         return id;
     }
 
-    public void setId(final @Nonnull Long id)
+    public void setId(@Nonnull final Long id)
     {
         this.id = id;
+    }
+
+    /**
+     * @return if resource is not persited than {@link Boolean#TRUE} else {@link Boolean#FALSE}
+     */
+    @Nonnull
+    @Transient
+    public Boolean isNew()
+    {
+        return id == null;
     }
 }
