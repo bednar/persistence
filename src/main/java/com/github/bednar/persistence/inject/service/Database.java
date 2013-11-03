@@ -68,6 +68,15 @@ public interface Database
         <R extends Resource> List<R> list(@Nonnull Criterion criterion, @Nonnull Class<R> type);
 
         /**
+         * Execute {@code sql} statement.
+         *
+         * @param sql sql statement
+         *
+         * @return this
+         */
+        Transaction doSQL(@Nonnull String sql);
+
+        /**
          * Commit actual transaction to Database.
          *
          * @return this

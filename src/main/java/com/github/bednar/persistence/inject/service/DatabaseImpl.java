@@ -2,6 +2,9 @@ package com.github.bednar.persistence.inject.service;
 
 import javax.annotation.Nonnull;
 import javax.persistence.Entity;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import java.util.Set;
 
@@ -13,6 +16,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.jdbc.Work;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 import org.reflections.Reflections;
@@ -119,6 +123,24 @@ public class DatabaseImpl implements Database
         {
             //noinspection unchecked
             return session.createCriteria(type).add(criterion).list();
+        }
+
+        @Nonnull
+        @Override
+        public Transaction doSQL(@Nonnull final String sql)
+        {
+            session.doWork(new Work()
+            {
+                @Override
+                public void execute(final Connection connection) throws SQLException
+                {
+                    Statement statement = connection.createStatement();
+                    statement.execute(sql);
+                    statement.close();
+                }
+            });
+
+            return this;
         }
 
         @Nonnull

@@ -28,4 +28,15 @@ public class DatabaseTest extends AbstractPersistenceTest
 
         transaction.finish();
     }
+
+    @Test
+    public void doSQLStatement()
+    {
+        Database database = injector.getInstance(Database.class);
+
+        database
+                .transaction()
+                .doSQL("select * from Pub")
+                .finish();
+    }
 }
