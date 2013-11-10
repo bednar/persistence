@@ -1,7 +1,67 @@
 Persistence Library [![Build Status](https://api.travis-ci.org/bednar/persistence.png?branch=master)](https://travis-ci.org/bednar/persistence)
 ====
 
-### Maven Repository
+## Persist Events
+
+### Read
+
+    @Inject
+    private Dispatcher dispatcher;
+
+    ...
+
+    ReadEvent<Pub> event = new ReadEvent<Pub>(2L, Pub.class)
+    {
+        @Override
+        public void success(@Nonnull final Pub value)
+        {
+            ...
+        }
+    };
+
+    dispatcher.publish(event);
+
+### Save
+
+    @Inject
+    private Dispatcher dispatcher;
+
+    ...
+
+    Pub pub = ...;
+
+    dispatcher.publish(new SaveEvent(pub));
+
+### List
+
+    @Inject
+    private Dispatcher dispatcher;
+
+    ...
+
+    ListEvent<Pub> event = new ListEvent<Pub>(Restrictions.like("name", "Irish%"), Pub.class)
+    {
+        @Override
+        public void success(final @Nonnull List<Pub> pubs)
+        {
+            ...
+        }
+    };
+
+    dispatcher.publish(event);
+
+### Delete
+
+    @Inject
+    private Dispatcher dispatcher;
+
+    ...
+
+    DeleteEvent event = new DeleteEvent(pub);
+
+    dispatcher.publish(event);
+
+## Maven Repository
 
     <repository>
         <id>public</id>
@@ -9,7 +69,7 @@ Persistence Library [![Build Status](https://api.travis-ci.org/bednar/persistenc
         <url>http://nexus-bednar.rhcloud.com/nexus/content/groups/public/</url>
     </repository>
 
-### License
+## License
 
     Copyright (c) 2013, Jakub Bednář
     All rights reserved.
