@@ -28,4 +28,10 @@ public class PubApi extends AbstractPersistenceAPI<Pub>
     {
         asynchRead(id, response);
     }
+
+    @GET
+    public void get(@Nonnull @Suspend final AsynchronousResponse response)
+    {
+        asynchList(response);
+    }
 }

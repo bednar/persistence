@@ -1,15 +1,23 @@
 package com.github.bednar.persistence.api;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.inject.Inject;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 import com.github.bednar.base.api.ApiResource;
 import com.github.bednar.base.event.Dispatcher;
 import com.github.bednar.persistence.contract.Resource;
+import com.github.bednar.persistence.event.ListEvent;
 import com.github.bednar.persistence.event.ReadEvent;
+import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableList;
 import org.apache.commons.beanutils.BeanUtilsBean2;
+import org.hibernate.criterion.Restrictions;
 import org.jboss.resteasy.annotations.Suspend;
 import org.jboss.resteasy.spi.AsynchronousResponse;
 import org.slf4j.Logger;
@@ -57,6 +65,32 @@ public abstract class AbstractPersistenceAPI<R extends Resource> implements ApiR
                 Object dto = transform(value, dtoType);
 
                 response.setResponse(Response.ok(dto).build());
+            }
+        });
+    }
+
+    protected void asynchList(@Nonnull @Suspend final AsynchronousResponse response)
+    {
+        Preconditions.checkNotNull(response);
+
+        dispatcher.publish(new ListEvent<R>(Restrictions.conjunction(), getType())
+        {
+            @Override
+            public void success(@Nonnull final List<R> values)
+            {
+                ImmutableList<Object> dtos = FluentIterable.from(values).transform(new Function<R, Object>()
+                {
+                    @Nullable
+                    @Override
+                    public Object apply(@Nonnull @SuppressWarnings("NullableProblems") final R value)
+                    {
+                        return transform(value, dtoType);
+                    }
+                }).toList();
+
+                GenericEntity entity = new GenericEntity(dtos, List.class);
+
+                response.setResponse(Response.ok(entity).build());
             }
         });
     }

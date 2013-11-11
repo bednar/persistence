@@ -26,4 +26,18 @@ public class PubApiTest extends AbstractPersistenceTest
         Assert.assertEquals(200, response.getStatus());
         Assert.assertEquals("{\"name\":\"Irish Pub\"}", response.readEntity(String.class));
     }
+
+    @Test
+    public void list() throws ExecutionException, InterruptedException
+    {
+        Response response = ClientBuilder.newClient()
+                .target(embeddedJetty.getURL() + "api/pub/")
+                .request("application/json")
+                .buildGet()
+                .submit()
+                .get();
+
+        Assert.assertEquals(200, response.getStatus());
+        Assert.assertEquals("[{\"name\":\"Irish Pub\"},{\"name\":\"Czech Pub\"}]", response.readEntity(String.class));
+    }
 }
