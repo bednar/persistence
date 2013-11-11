@@ -1,7 +1,6 @@
 package com.github.bednar.persistence.api;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
@@ -80,7 +79,7 @@ public abstract class AbstractPersistenceAPI<R extends Resource> implements ApiR
             {
                 ImmutableList<Object> dtos = FluentIterable.from(values).transform(new Function<R, Object>()
                 {
-                    @Nullable
+                    @Nonnull
                     @Override
                     public Object apply(@Nonnull @SuppressWarnings("NullableProblems") final R value)
                     {
