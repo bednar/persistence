@@ -2,8 +2,9 @@ package com.github.bednar.persistence;
 
 
 import com.github.bednar.base.event.Dispatcher;
-import com.github.bednar.base.http.AppBootstrap;
+import com.github.bednar.base.http.AppContext;
 import com.github.bednar.base.inject.Injector;
+import com.github.bednar.persistence.inject.service.Database;
 import com.github.bednar.test.EmbeddedJetty;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -18,30 +19,43 @@ public abstract class AbstractPersistenceTest
      * Class scope
      */
     protected static EmbeddedJetty embeddedJetty;
-    protected static Injector injector;
 
     /**
-     * Test scopre
+     * Test scope
      */
     protected Dispatcher dispatcher;
+    protected Injector injector;
 
     @BeforeClass
-    public static void before() throws Exception
+    public static void beforeClass() throws Exception
     {
         embeddedJetty = new EmbeddedJetty().start();
 
-        injector = (Injector) embeddedJetty.getServletContext().getAttribute(AppBootstrap.INJECTOR_KEY);
-    }
-
-    @AfterClass
-    public static void after() throws Exception
-    {
-        embeddedJetty.stop();
+        AppContext.initInjector(embeddedJetty.getServletContext());
     }
 
     @Before
-    public void beforeTest()
+    public void before()
     {
+        injector = AppContext.getInjector();
+
         dispatcher = injector.getInstance(Dispatcher.class);
+    }
+
+    @AfterClass
+    public static void afterClass() throws Exception
+    {
+        //Delete H2 database
+        AppContext.getInjector()
+                .getInstance(Database.class)
+                .transaction()
+                .doSQL("DROP ALL OBJECTS")
+                .finish();
+
+        AppContext
+                .clear();
+
+        embeddedJetty
+                .stop();
     }
 }
