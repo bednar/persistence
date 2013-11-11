@@ -69,6 +69,12 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.wordnik</groupId>
+            <artifactId>swagger-annotations_2.9.1</artifactId>
+            <scope>test</scope>
+        </dependency>
+
         <!-- Utils -->
 
         <dependency>
@@ -86,6 +92,11 @@
             <artifactId>reflections</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>net.sf.dozer</groupId>
+            <artifactId>dozer</artifactId>
+        </dependency>
+
         <!-- Tests -->
 
         <dependency>
@@ -101,6 +112,33 @@
         </dependency>
 
     </dependencies>
+
+    <build>
+
+        <plugins>
+
+            <plugin>
+                <groupId>com.github.bednar</groupId>
+                <artifactId>aap</artifactId>
+                <version>0.1-SNAPSHOT</version>
+                <executions>
+                    <execution>
+                        <id>generate-dto</id>
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>dto</goal>
+                        </goals>
+                        <configuration>
+                            <dtoOutput>${project.build.testSourceDirectory}</dtoOutput>
+                            <addTestClasspath>true</addTestClasspath>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+
+    </build>
 
     <repositories>
 

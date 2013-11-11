@@ -5,15 +5,19 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import com.github.bednar.persistence.contract.Resource;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
 /**
  * @author Jakub Bednář (27/07/2013 7:03 PM)
  */
 
 @Entity
+@ApiModel("Pub for my Beers")
 public class Pub extends Resource
 {
     @Column(nullable = false, length = 500)
+    @ApiModelProperty(value = "Name of Pub", position = 1)
     private String name;
 
     @Nonnull
