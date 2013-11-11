@@ -93,8 +93,8 @@
         </dependency>
 
         <dependency>
-            <groupId>net.sf.dozer</groupId>
-            <artifactId>dozer</artifactId>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
         </dependency>
 
         <!-- Tests -->
