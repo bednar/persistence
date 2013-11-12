@@ -1,6 +1,7 @@
 package com.github.bednar.persistence.api;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
@@ -100,13 +101,15 @@ public abstract class AbstractPersistenceAPI<R extends Resource, D> implements A
         });
     }
 
-    protected void asynchPutNew(@Nonnull final D dto, @Nonnull @Suspend final AsynchronousResponse response)
+    protected void asynchPut(@Nullable final Long key, @Nonnull final D dto, @Nonnull @Suspend final AsynchronousResponse response)
     {
         R resource = transform(dto, getResourceType());
 
-        //Mark as new
+        /**
+         * key == null => create new
+         */
         //noinspection ConstantConditions
-        resource.setId(null);
+        resource.setId(key);
 
         dispatcher.publish(new SaveEvent(resource)
         {

@@ -55,6 +55,6 @@ public class PubApi extends AbstractPersistenceAPI<Pub, PubDTO>
     @PUT
     public void put(@Nonnull PubDTO pubDTO, @Nonnull @Suspend final AsynchronousResponse response)
     {
-        asynchPut(pubDTO, response);
+        asynchPut(null, pubDTO, response);
     }
 }
