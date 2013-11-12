@@ -57,4 +57,11 @@ public class PubApi extends AbstractPersistenceAPI<Pub, PubDTO>
     {
         asynchPut(null, pubDTO, response);
     }
+
+    @PUT
+    @Path("{id}")
+    public void put(@Nonnull @PathParam("id") final Long id, @Nonnull PubDTO pubDTO, @Nonnull @Suspend final AsynchronousResponse response)
+    {
+        asynchPut(id, pubDTO, response);
+    }
 }

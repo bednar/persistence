@@ -88,7 +88,7 @@ public class DatabaseImpl implements Database
         @Override
         public Transaction save(final @Nonnull Resource resource)
         {
-            session.save(resource);
+            session.saveOrUpdate(resource);
 
             return this;
         }

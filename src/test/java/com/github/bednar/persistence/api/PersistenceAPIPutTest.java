@@ -44,4 +44,31 @@ public class PersistenceAPIPutTest extends AbstractPersistenceTest
             }
         });
     }
+
+    @Test
+    public void putExisted() throws ExecutionException, InterruptedException
+    {
+        PubDTO pubDTO = new PubDTO();
+        pubDTO.setName("Irish Pub in London");
+
+        Response response = ClientBuilder.newClient()
+                .target(embeddedJetty.getURL() + "api/pub/1")
+                .request("application/json")
+                .buildPut(Entity.json(pubDTO))
+                .submit()
+                .get();
+
+        Assert.assertEquals(200, response.getStatus());
+        Assert.assertEquals("1", response.readEntity(String.class));
+
+        dispatcher.publish(new ReadEvent<Pub>(1L, Pub.class)
+        {
+            @Override
+            public void success(@Nonnull final Pub pub)
+            {
+                Assert.assertEquals((Object) 1L, pub.getId());
+                Assert.assertEquals("Irish Pub in London", pub.getName());
+            }
+        });
+    }
 }
