@@ -19,7 +19,7 @@ import org.junit.Test;
 public class PersistenceAPIPutTest extends AbstractPersistenceTest
 {
     @Test
-    public void createNew() throws ExecutionException, InterruptedException
+    public void putNew() throws ExecutionException, InterruptedException
     {
         PubDTO pubDTO = new PubDTO();
         pubDTO.setName("London Pub");
