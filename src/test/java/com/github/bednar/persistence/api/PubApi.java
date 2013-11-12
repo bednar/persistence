@@ -1,6 +1,7 @@
 package com.github.bednar.persistence.api;
 
 import javax.annotation.Nonnull;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -33,5 +34,12 @@ public class PubApi extends AbstractPersistenceAPI<Pub>
     public void get(@Nonnull @Suspend final AsynchronousResponse response)
     {
         asynchList(response);
+    }
+
+    @DELETE
+    @Path("{id}")
+    public void delete(@Nonnull @PathParam("id") final Long id, @Nonnull @Suspend final AsynchronousResponse response)
+    {
+        asynchDelete(id, response);
     }
 }

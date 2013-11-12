@@ -9,6 +9,7 @@ import java.util.List;
 import com.github.bednar.base.api.ApiResource;
 import com.github.bednar.base.event.Dispatcher;
 import com.github.bednar.persistence.contract.Resource;
+import com.github.bednar.persistence.event.DeleteEvent;
 import com.github.bednar.persistence.event.ListEvent;
 import com.github.bednar.persistence.event.ReadEvent;
 import com.google.common.base.Function;
@@ -90,6 +91,18 @@ public abstract class AbstractPersistenceAPI<R extends Resource> implements ApiR
                 GenericEntity entity = new GenericEntity(dtos, List.class);
 
                 response.setResponse(Response.ok(entity).build());
+            }
+        });
+    }
+
+    protected void asynchDelete(@Nonnull final Long id, @Nonnull @Suspend final AsynchronousResponse response)
+    {
+        dispatcher.publish(new DeleteEvent(id, getType())
+        {
+            @Override
+            public void success(@Nonnull final Long value)
+            {
+                response.setResponse(Response.ok().build());
             }
         });
     }

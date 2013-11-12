@@ -11,7 +11,7 @@ import org.junit.Test;
 /**
  * @author Jakub Bednář (10/11/2013 12:13)
  */
-public class PubApiTest extends AbstractPersistenceTest
+public class PersistenceAPIGetTest extends AbstractPersistenceTest
 {
     @Test
     public void get() throws ExecutionException, InterruptedException
@@ -25,19 +25,5 @@ public class PubApiTest extends AbstractPersistenceTest
 
         Assert.assertEquals(200, response.getStatus());
         Assert.assertEquals("{\"name\":\"Irish Pub\"}", response.readEntity(String.class));
-    }
-
-    @Test
-    public void list() throws ExecutionException, InterruptedException
-    {
-        Response response = ClientBuilder.newClient()
-                .target(embeddedJetty.getURL() + "api/pub/")
-                .request("application/json")
-                .buildGet()
-                .submit()
-                .get();
-
-        Assert.assertEquals(200, response.getStatus());
-        Assert.assertEquals("[{\"name\":\"Irish Pub\"},{\"name\":\"Czech Pub\"}]", response.readEntity(String.class));
     }
 }
