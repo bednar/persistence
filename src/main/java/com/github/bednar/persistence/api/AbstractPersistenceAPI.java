@@ -100,7 +100,7 @@ public abstract class AbstractPersistenceAPI<R extends Resource, D> implements A
         });
     }
 
-    protected void asynchPut(@Nonnull final D dto, @Nonnull @Suspend final AsynchronousResponse response)
+    protected void asynchPutNew(@Nonnull final D dto, @Nonnull @Suspend final AsynchronousResponse response)
     {
         R resource = transform(dto, getResourceType());
 
