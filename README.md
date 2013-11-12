@@ -61,6 +61,13 @@ Persistence Library [![Build Status](https://api.travis-ci.org/bednar/persistenc
 
     dispatcher.publish(event);
 
+## RESTful API
+
+| Resource                          | GET                               | PUT                                   | DELETE                                |
+|:---------------------------------:|:---------------------------------:|:-------------------------------------:|:-------------------------------------:|
+| http://example.com/api/pub/       | Get List of Pub resources         | Create New Pub resource               | -                                     |
+| http://example.com/api/pub/{key}  | Get Pub resource with key={key}   | Update Pub resource with key={key}    | Delete Pub resource with key={key}    |
+
 ## Maven Repository
 
     <repository>
