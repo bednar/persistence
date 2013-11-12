@@ -12,6 +12,7 @@ import com.github.bednar.persistence.contract.Resource;
 import com.github.bednar.persistence.event.DeleteEvent;
 import com.github.bednar.persistence.event.ListEvent;
 import com.github.bednar.persistence.event.ReadEvent;
+import com.github.bednar.persistence.event.SaveEvent;
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.FluentIterable;
@@ -95,6 +96,24 @@ public abstract class AbstractPersistenceAPI<R extends Resource, D> implements A
             public void success(@Nonnull final Long value)
             {
                 response.setResponse(Response.ok().build());
+            }
+        });
+    }
+
+    protected void asynchPut(@Nonnull final D dto, @Nonnull @Suspend final AsynchronousResponse response)
+    {
+        R resource = transform(dto, getResourceType());
+
+        //Mark as new
+        //noinspection ConstantConditions
+        resource.setId(null);
+
+        dispatcher.publish(new SaveEvent(resource)
+        {
+            @Override
+            public void success(@Nonnull final Long key)
+            {
+                response.setResponse(Response.ok(key).build());
             }
         });
     }
