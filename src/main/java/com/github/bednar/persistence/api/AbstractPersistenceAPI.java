@@ -80,7 +80,7 @@ public abstract class AbstractPersistenceAPI<R extends Resource, D> implements A
                     }
                 }).toList();
 
-                GenericEntity entity = new GenericEntity(dtos, List.class);
+                GenericEntity entity = new GenericEntity<List>(dtos, List.class);
 
                 response.setResponse(Response.ok(entity).build());
             }
