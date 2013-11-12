@@ -118,6 +118,21 @@
         <plugins>
 
             <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>${project.build.testSourceDirectory}</directory>
+                            <includes>
+                                <include>**/*DTO.java</include>
+                            </includes>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+
+            <plugin>
                 <groupId>com.github.bednar</groupId>
                 <artifactId>aap</artifactId>
                 <version>0.1-SNAPSHOT</version>
