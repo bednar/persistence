@@ -123,6 +123,8 @@ Persistence Library [![Build Status](https://api.travis-ci.org/bednar/persistenc
 
 ### Security
 
+Security is concern of [Security Library](https://github.com/bednar/security).
+
 ## Maven Repository
 
     <repository>
