@@ -3,6 +3,7 @@ package com.github.bednar.persistence.event;
 import com.github.bednar.persistence.AbstractPersistenceTest;
 import com.github.bednar.persistence.DummyData;
 import com.github.bednar.persistence.resource.Pub;
+import com.github.bednar.test.AssertUtil;
 import org.junit.Test;
 
 /**
@@ -19,9 +20,25 @@ public class DeleteEventTest extends AbstractPersistenceTest
         dispatcher.publish(new DeleteEvent(pub));
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void deleteNotPersisted()
     {
         dispatcher.publish(new DeleteEvent(new Pub()));
+    }
+
+    @Test
+    public void deleteNotExist()
+    {
+        Pub pub = new Pub();
+        pub.setId(999L);
+
+        try
+        {
+            dispatcher.publish(new DeleteEvent(pub));
+        }
+        catch (Exception e)
+        {
+            AssertUtil.assertException(IllegalArgumentException.class, e);
+        }
     }
 }

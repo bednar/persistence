@@ -51,12 +51,13 @@ public interface Database
         /**
          * Delete
          *
-         * @param resource for delete
+         * @param key  of resource
+         * @param type of resource
          *
          * @return this
          */
         @Nonnull
-        Transaction delete(@Nonnull Resource resource);
+        Transaction delete(final @Nonnull Long key, final @Nonnull Class type);
 
         /**
          * List

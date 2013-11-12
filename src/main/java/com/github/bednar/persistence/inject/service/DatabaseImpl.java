@@ -110,9 +110,9 @@ public class DatabaseImpl implements Database
 
         @Nonnull
         @Override
-        public Transaction delete(final @Nonnull Resource resource)
+        public Transaction delete(final @Nonnull Long key, final @Nonnull Class type)
         {
-            session.delete(resource);
+            session.delete(session.byId(type).load(key));
 
             return this;
         }

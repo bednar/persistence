@@ -4,7 +4,6 @@ import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
 import com.github.bednar.base.event.AbstractSubscriber;
-import com.github.bednar.persistence.contract.Resource;
 import com.github.bednar.persistence.inject.service.Database;
 import com.mycila.event.Event;
 
@@ -30,13 +29,14 @@ public class DeleteSubscriber extends AbstractSubscriber<DeleteEvent>
 
         try
         {
-            Resource resource = event.getSource().getResource();
+            Long key    = event.getSource().getId();
+            Class type  = event.getSource().getType();
 
             transaction
-                    .delete(resource)
+                    .delete(key, type)
                     .commit();
 
-            event.getSource().success(resource.getId());
+            event.getSource().success(key);
         }
         catch (Exception e)
         {
