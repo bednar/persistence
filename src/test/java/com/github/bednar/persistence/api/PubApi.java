@@ -7,6 +7,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
 import com.github.bednar.persistence.resource.Pub;
+import com.github.bednar.persistence.resource.PubDTO;
 import org.jboss.resteasy.annotations.Suspend;
 import org.jboss.resteasy.spi.AsynchronousResponse;
 
@@ -14,13 +15,20 @@ import org.jboss.resteasy.spi.AsynchronousResponse;
  * @author Jakub Bednář (10/11/2013 11:54)
  */
 @Path("/pub")
-public class PubApi extends AbstractPersistenceAPI<Pub>
+public class PubApi extends AbstractPersistenceAPI<Pub, PubDTO>
 {
     @Nonnull
     @Override
     protected Class<Pub> getType()
     {
         return Pub.class;
+    }
+
+    @Nonnull
+    @Override
+    protected Class<PubDTO> getDtoType()
+    {
+        return PubDTO.class;
     }
 
     @GET

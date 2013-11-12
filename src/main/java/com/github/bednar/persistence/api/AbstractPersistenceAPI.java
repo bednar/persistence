@@ -26,31 +26,23 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Jakub Bednář (10/11/2013 10:08)
  */
-public abstract class AbstractPersistenceAPI<R extends Resource> implements ApiResource
+public abstract class AbstractPersistenceAPI<R extends Resource, D> implements ApiResource
 {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractPersistenceAPI.class);
 
     @Inject
     private Dispatcher dispatcher;
 
-    private final Class dtoType;
-
     protected AbstractPersistenceAPI()
     {
-        try
-        {
-            this.dtoType = Class.forName(getType().getCanonicalName() + "DTO");
-        }
-        catch (ClassNotFoundException e)
-        {
-            throw new AbstractPersistenceAPIException(e);
-        }
-
-        LOG.info("[persistence-api-initialized][{}][{}]", getType().getCanonicalName(), dtoType.getCanonicalName());
+        LOG.info("[persistence-api-initialized][{}][{}]", getType(), getDtoType());
     }
 
     @Nonnull
     protected abstract Class<R> getType();
+
+    @Nonnull
+    protected abstract Class<D> getDtoType();
 
     protected void asynchRead(@Nonnull final Long id, @Nonnull @Suspend final AsynchronousResponse response)
     {
@@ -62,7 +54,7 @@ public abstract class AbstractPersistenceAPI<R extends Resource> implements ApiR
             @Override
             public void success(@Nonnull final R value)
             {
-                Object dto = transform(value, dtoType);
+                D dto = transform(value, getDtoType());
 
                 response.setResponse(Response.ok(dto).build());
             }
@@ -78,13 +70,13 @@ public abstract class AbstractPersistenceAPI<R extends Resource> implements ApiR
             @Override
             public void success(@Nonnull final List<R> values)
             {
-                ImmutableList<Object> dtos = FluentIterable.from(values).transform(new Function<R, Object>()
+                ImmutableList<D> dtos = FluentIterable.from(values).transform(new Function<R, D>()
                 {
                     @Nonnull
                     @Override
-                    public Object apply(@Nonnull @SuppressWarnings("NullableProblems") final R value)
+                    public D apply(@Nonnull @SuppressWarnings("NullableProblems") final R value)
                     {
-                        return transform(value, dtoType);
+                        return transform(value, getDtoType());
                     }
                 }).toList();
 
@@ -108,9 +100,9 @@ public abstract class AbstractPersistenceAPI<R extends Resource> implements ApiR
     }
 
     @Nonnull
-    private Object transform(@Nonnull final Object source, @Nonnull final Class destType)
+    private <T> T transform(@Nonnull final Object source, @Nonnull final Class<T> destType)
     {
-        Object dest;
+        T dest;
         try
         {
             dest = destType.newInstance();
