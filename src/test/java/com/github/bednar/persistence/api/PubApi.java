@@ -19,14 +19,14 @@ public class PubApi extends AbstractPersistenceAPI<Pub, PubDTO>
 {
     @Nonnull
     @Override
-    protected Class<Pub> getType()
+    protected Class<Pub> getResourceType()
     {
         return Pub.class;
     }
 
     @Nonnull
     @Override
-    protected Class<PubDTO> getDtoType()
+    protected Class<PubDTO> getDTOType()
     {
         return PubDTO.class;
     }

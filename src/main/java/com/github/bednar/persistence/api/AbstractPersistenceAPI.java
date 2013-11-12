@@ -35,26 +35,26 @@ public abstract class AbstractPersistenceAPI<R extends Resource, D> implements A
 
     protected AbstractPersistenceAPI()
     {
-        LOG.info("[persistence-api-initialized][{}][{}]", getType(), getDtoType());
+        LOG.info("[persistence-api-initialized][{}][{}]", getResourceType(), getDTOType());
     }
 
     @Nonnull
-    protected abstract Class<R> getType();
+    protected abstract Class<R> getResourceType();
 
     @Nonnull
-    protected abstract Class<D> getDtoType();
+    protected abstract Class<D> getDTOType();
 
     protected void asynchRead(@Nonnull final Long id, @Nonnull @Suspend final AsynchronousResponse response)
     {
         Preconditions.checkNotNull(id);
         Preconditions.checkNotNull(response);
 
-        dispatcher.publish(new ReadEvent<R>(id, getType())
+        dispatcher.publish(new ReadEvent<R>(id, getResourceType())
         {
             @Override
             public void success(@Nonnull final R value)
             {
-                D dto = transform(value, getDtoType());
+                D dto = transform(value, getDTOType());
 
                 response.setResponse(Response.ok(dto).build());
             }
@@ -65,7 +65,7 @@ public abstract class AbstractPersistenceAPI<R extends Resource, D> implements A
     {
         Preconditions.checkNotNull(response);
 
-        dispatcher.publish(new ListEvent<R>(Restrictions.conjunction(), getType())
+        dispatcher.publish(new ListEvent<R>(Restrictions.conjunction(), getResourceType())
         {
             @Override
             public void success(@Nonnull final List<R> values)
@@ -76,7 +76,7 @@ public abstract class AbstractPersistenceAPI<R extends Resource, D> implements A
                     @Override
                     public D apply(@Nonnull @SuppressWarnings("NullableProblems") final R value)
                     {
-                        return transform(value, getDtoType());
+                        return transform(value, getDTOType());
                     }
                 }).toList();
 
@@ -89,7 +89,7 @@ public abstract class AbstractPersistenceAPI<R extends Resource, D> implements A
 
     protected void asynchDelete(@Nonnull final Long id, @Nonnull @Suspend final AsynchronousResponse response)
     {
-        dispatcher.publish(new DeleteEvent(id, getType())
+        dispatcher.publish(new DeleteEvent(id, getResourceType())
         {
             @Override
             public void success(@Nonnull final Long value)
