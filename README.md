@@ -68,6 +68,61 @@ Persistence Library [![Build Status](https://api.travis-ci.org/bednar/persistenc
 | http://example.com/api/pub/       | Get List of Pub resources         | Create New Pub resource               | -                                     |
 | http://example.com/api/pub/{key}  | Get Pub resource with key={key}   | Update Pub resource with key={key}    | Delete Pub resource with key={key}    |
 
+### API Example - [Pub API](https://github.com/bednar/persistence/blob/master/src/test/java/com/github/bednar/persistence/api/PubApi.java)
+
+    @Path("/pub")
+    public class PubApi extends AbstractPersistenceAPI<Pub, PubDTO>
+    {
+        @Nonnull
+        @Override
+        protected Class<Pub> getResourceType()
+        {
+            return Pub.class;
+        }
+    
+        @Nonnull
+        @Override
+        protected Class<PubDTO> getDTOType()
+        {
+            return PubDTO.class;
+        }
+    
+        @GET
+        @Path("{id}")
+        public void get(@Nonnull @PathParam("id") final Long id, @Nonnull @Suspend final AsynchronousResponse response)
+        {
+            asynchRead(id, response);
+        }
+    
+        @GET
+        public void get(@Nonnull @Suspend final AsynchronousResponse response)
+        {
+            asynchList(response);
+        }
+    
+        @DELETE
+        @Path("{id}")
+        public void delete(@Nonnull @PathParam("id") final Long id, @Nonnull @Suspend final AsynchronousResponse response)
+        {
+            asynchDelete(id, response);
+        }
+    
+        @PUT
+        public void put(@Nonnull PubDTO pubDTO, @Nonnull @Suspend final AsynchronousResponse response)
+        {
+            asynchPut(null, pubDTO, response);
+        }
+    
+        @PUT
+        @Path("{id}")
+        public void put(@Nonnull @PathParam("id") final Long id, @Nonnull PubDTO pubDTO, @Nonnull @Suspend final AsynchronousResponse response)
+        {
+            asynchPut(id, pubDTO, response);
+        }
+    }
+
+### Security
+
 ## Maven Repository
 
     <repository>
