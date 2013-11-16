@@ -139,13 +139,13 @@
                 <executions>
                     <execution>
                         <id>generate-dto</id>
-                        <phase>test-compile</phase>
+                        <phase>process-test-sources</phase>
                         <goals>
                             <goal>dto</goal>
                         </goals>
                         <configuration>
                             <dtoOutput>${project.build.testSourceDirectory}</dtoOutput>
-                            <addTestClasspath>true</addTestClasspath>
+                            <addTestSources>true</addTestSources>
                         </configuration>
                     </execution>
                 </executions>
