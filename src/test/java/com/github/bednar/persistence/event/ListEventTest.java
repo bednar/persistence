@@ -6,6 +6,8 @@ import java.util.List;
 import com.github.bednar.persistence.AbstractPersistenceTest;
 import com.github.bednar.persistence.DummyData;
 import com.github.bednar.persistence.resource.Pub;
+import com.github.bednar.test.AssertUtil;
+import org.hibernate.QueryException;
 import org.hibernate.criterion.Restrictions;
 import org.junit.Assert;
 import org.junit.Test;
@@ -43,5 +45,18 @@ public class ListEventTest extends AbstractPersistenceTest
                 Assert.fail();
             }
         });
+    }
+
+    @Test
+    public void illegalRestrictions()
+    {
+        try
+        {
+            dispatcher.publish(new ListEvent<>(Restrictions.like("notExistProperty", "error"), Pub.class));
+        }
+        catch (Exception e)
+        {
+            AssertUtil.assertException(QueryException.class, e);
+        }
     }
 }
