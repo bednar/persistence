@@ -3,6 +3,8 @@ package com.github.bednar.persistence.event;
 import com.github.bednar.persistence.AbstractPersistenceTest;
 import com.github.bednar.persistence.DummyData;
 import com.github.bednar.persistence.resource.Pub;
+import com.github.bednar.test.AssertUtil;
+import org.hibernate.StaleStateException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -27,5 +29,21 @@ public class SaveEventTest extends AbstractPersistenceTest
         dispatcher.publish(new SaveEvent(pub));
 
         Assert.assertNotNull(pub.getId());
+    }
+
+    @Test
+    public void updateNotExistRow()
+    {
+        Pub pub = DummyData.getPub();
+        pub.setId(-1L);
+
+        try
+        {
+            dispatcher.publish(new SaveEvent(pub));
+        }
+        catch (Exception e)
+        {
+            AssertUtil.assertException(StaleStateException.class, e);
+        }
     }
 }
