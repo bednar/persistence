@@ -122,7 +122,7 @@ public abstract class AbstractPersistenceAPI<R extends Resource, D> implements A
     }
 
     @Nonnull
-    private <T> T transform(@Nonnull final Object source, @Nonnull final Class<T> destType)
+    protected  <T> T transform(@Nonnull final Object source, @Nonnull final Class<T> destType)
     {
         T dest;
         try
