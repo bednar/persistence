@@ -127,6 +127,14 @@ public class DatabaseImpl implements Database
 
         @Nonnull
         @Override
+        public <R extends Resource> R unique(@Nonnull final Criterion criterion, @Nonnull final Class<R> type)
+        {
+            //noinspection unchecked
+            return (R) session.createCriteria(type).add(criterion).uniqueResult();
+        }
+
+        @Nonnull
+        @Override
         public Session session()
         {
             return session;

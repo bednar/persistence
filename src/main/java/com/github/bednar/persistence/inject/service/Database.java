@@ -70,6 +70,16 @@ public interface Database
         <R extends Resource> List<R> list(@Nonnull Criterion criterion, @Nonnull Class<R> type);
 
         /**
+         * @param criterion for select resource
+         * @param type      of resource
+         * @param <R>       type of resource
+         *
+         * @return unique result of criterion
+         */
+        @Nonnull
+        <R extends Resource> R unique(@Nonnull Criterion criterion, @Nonnull Class<R> type);
+
+        /**
          * @return actual session
          */
         @Nonnull
