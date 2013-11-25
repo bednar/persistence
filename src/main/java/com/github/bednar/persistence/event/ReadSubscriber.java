@@ -27,9 +27,7 @@ public class ReadSubscriber extends AbstractSubscriber<ReadEvent>
     @Override
     public void onEvent(final Event<ReadEvent> event) throws Exception
     {
-        Database.Transaction transaction = database.transaction();
-
-        try
+        try (Database.Transaction transaction = database.transaction())
         {
             Resource resource = transaction.read(
                     event.getSource().getKey(),
@@ -40,10 +38,6 @@ public class ReadSubscriber extends AbstractSubscriber<ReadEvent>
         catch (Exception e)
         {
             event.getSource().fail(e);
-        }
-        finally
-        {
-            transaction.finish();
         }
     }
 }

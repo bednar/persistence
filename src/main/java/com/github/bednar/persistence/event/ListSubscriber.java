@@ -28,9 +28,7 @@ public class ListSubscriber extends AbstractSubscriber<ListEvent>
     @Override
     public void onEvent(final Event<ListEvent> event) throws Exception
     {
-        Database.Transaction transaction = database.transaction();
-
-        try
+        try (Database.Transaction transaction = database.transaction())
         {
             List<? extends Resource> list = transaction.list(
                     event.getSource().getCriterion(),
@@ -41,10 +39,6 @@ public class ListSubscriber extends AbstractSubscriber<ListEvent>
         catch (Exception e)
         {
             event.getSource().fail(e);
-        }
-        finally
-        {
-            transaction.finish();
         }
     }
 }

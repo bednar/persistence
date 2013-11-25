@@ -26,9 +26,7 @@ public class SaveSubscriber extends AbstractSubscriber<SaveEvent>
     @Override
     public void onEvent(final @Nonnull Event<SaveEvent> event) throws Exception
     {
-        Database.Transaction transaction = database.transaction();
-
-        try
+        try (Database.Transaction transaction = database.transaction())
         {
             Resource resource = event.getSource().getResource();
 
@@ -41,10 +39,6 @@ public class SaveSubscriber extends AbstractSubscriber<SaveEvent>
         catch (Exception e)
         {
             event.getSource().fail(e);
-        }
-        finally
-        {
-            transaction.finish();
         }
     }
 }
