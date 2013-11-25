@@ -33,7 +33,7 @@ public abstract class AbstractPersistenceAPI<R extends Resource, D> implements A
     private static final Logger LOG = LoggerFactory.getLogger(AbstractPersistenceAPI.class);
 
     @Inject
-    private Dispatcher dispatcher;
+    protected Dispatcher dispatcher;
 
     protected AbstractPersistenceAPI()
     {
