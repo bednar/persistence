@@ -1,6 +1,7 @@
 package com.github.bednar.persistence.inject.service;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.persistence.Entity;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -125,7 +126,7 @@ public class DatabaseImpl implements Database
             return session.createCriteria(type).add(criterion).list();
         }
 
-        @Nonnull
+        @Nullable
         @Override
         public <R extends Resource> R unique(@Nonnull final Criterion criterion, @Nonnull final Class<R> type)
         {

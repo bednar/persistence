@@ -1,6 +1,7 @@
 package com.github.bednar.persistence.inject.service;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 import com.github.bednar.persistence.contract.Resource;
@@ -76,7 +77,7 @@ public interface Database
          *
          * @return unique result of criterion
          */
-        @Nonnull
+        @Nullable
         <R extends Resource> R unique(@Nonnull Criterion criterion, @Nonnull Class<R> type);
 
         /**
