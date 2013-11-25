@@ -24,8 +24,8 @@ public class ListSubscriber extends AbstractSubscriber<ListEvent>
         return ListEvent.class;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
+    @SuppressWarnings("unchecked")
     public void onEvent(final Event<ListEvent> event) throws Exception
     {
         try (Database.Transaction transaction = database.transaction())
