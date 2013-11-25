@@ -1,9 +1,6 @@
 package com.github.bednar.persistence.inject.service;
 
 import com.github.bednar.persistence.AbstractPersistenceTest;
-import com.github.bednar.persistence.resource.Pub;
-import org.hibernate.NonUniqueResultException;
-import org.hibernate.criterion.Restrictions;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -53,38 +50,5 @@ public class DatabaseTest extends AbstractPersistenceTest
         Assert.assertNotNull(transaction.session());
 
         transaction.finish();
-    }
-
-    @Test
-    public void uniqueResultSuccess()
-    {
-        Database.Transaction transaction = injector
-                .getInstance(Database.class)
-                .transaction();
-
-        Pub pub = transaction.unique(Restrictions.eq("name", "Irish Pub"), Pub.class);
-
-        Assert.assertNotNull(pub);
-        Assert.assertEquals("Irish Pub", pub.getName());
-        Assert.assertEquals((Object) 1L, pub.getId());
-
-        transaction.finish();
-    }
-
-    @Test(expected = NonUniqueResultException.class)
-    public void uniqueResultFailure()
-    {
-        Database.Transaction transaction = injector
-                .getInstance(Database.class)
-                .transaction();
-
-        try
-        {
-            transaction.unique(Restrictions.like("name", "%Pub"), Pub.class);
-        }
-        finally
-        {
-            transaction.finish();
-        }
     }
 }
