@@ -6,9 +6,11 @@ import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 
 import com.github.bednar.persistence.resource.Pub;
 import com.github.bednar.persistence.resource.PubDTO;
+import org.hibernate.criterion.Restrictions;
 import org.jboss.resteasy.annotations.Suspend;
 import org.jboss.resteasy.spi.AsynchronousResponse;
 
@@ -63,5 +65,12 @@ public class PubApi extends AbstractPersistenceAPI<Pub, PubDTO>
     public void put(@Nonnull @PathParam("id") final Long id, @Nonnull PubDTO pubDTO, @Nonnull @Suspend final AsynchronousResponse response)
     {
         asynchPut(id, pubDTO, response);
+    }
+
+    @GET
+    @Path("unique")
+    public void unique(@Nonnull @QueryParam("like") String like, @Nonnull @Suspend final AsynchronousResponse response)
+    {
+        asynchUnique(Restrictions.like("name", "%" + like + "%"), response);
     }
 }

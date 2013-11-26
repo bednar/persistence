@@ -14,11 +14,13 @@ import com.github.bednar.persistence.event.DeleteEvent;
 import com.github.bednar.persistence.event.ListEvent;
 import com.github.bednar.persistence.event.ReadEvent;
 import com.github.bednar.persistence.event.SaveEvent;
+import com.github.bednar.persistence.event.UniqueEvent;
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import org.apache.commons.beanutils.BeanUtilsBean2;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.jboss.resteasy.annotations.Suspend;
 import org.jboss.resteasy.spi.AsynchronousResponse;
@@ -33,7 +35,7 @@ public abstract class AbstractPersistenceAPI<R extends Resource, D> implements A
     private static final Logger LOG = LoggerFactory.getLogger(AbstractPersistenceAPI.class);
 
     @Inject
-    protected Dispatcher dispatcher;
+    private Dispatcher dispatcher;
 
     protected AbstractPersistenceAPI()
     {
@@ -121,8 +123,34 @@ public abstract class AbstractPersistenceAPI<R extends Resource, D> implements A
         });
     }
 
+    protected void asynchUnique(@Nonnull @Suspend final Criterion criterion,
+                                @Nonnull @Suspend final AsynchronousResponse response)
+    {
+        Preconditions.checkNotNull(criterion);
+        Preconditions.checkNotNull(response);
+
+        dispatcher.publish(new UniqueEvent<R>(criterion, getResourceType())
+        {
+            @Override
+            public void success(@Nullable final R value)
+            {
+                Object responseObject;
+                if (value != null)
+                {
+                    responseObject = transform(value, getDTOType());
+                }
+                else
+                {
+                    responseObject = null;
+                }
+
+                response.setResponse(Response.ok(responseObject).build());
+            }
+        });
+    }
+
     @Nonnull
-    protected  <T> T transform(@Nonnull final Object source, @Nonnull final Class<T> destType)
+    private   <T> T transform(@Nonnull final Object source, @Nonnull final Class<T> destType)
     {
         T dest;
         try
